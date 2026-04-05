@@ -257,7 +257,11 @@ function pollStatus() {
 // State Polling (UI Sync)
 // ----------------------------------------------------
 function pollState() {
-    fetch(`${settings.espIp}/state`)
+    fetch(`${settings.espIp}/state`, {
+  headers: {
+    "ngrok-skip-browser-warning": "true"
+  }
+})
         .then(response => response.json())
         .then(data => {
             if (data && Array.isArray(data.slots)) {
