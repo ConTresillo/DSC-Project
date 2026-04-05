@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+  <h2>Parking System</h2>
+
+  <button onclick="book(0)">Book Slot 0</button>
+  <button onclick="book(1)">Book Slot 1</button>
+
+  <p id="log"></p>
+
+  <script>
+    const ESP_IP = "http://10.245.42.179";
+
+    // ===== LOG HELPER =====
+    function log(msg) {
+      document.getElementById("log").innerText = msg;
+    }
+
+    // ===== BOOK =====
+    function book(slot) {
+      fetch(`${ESP_IP}/book?slot=${slot}`)
+        .then(r => r.text())
+        .then(t => log("BOOK: " + t))
+        .catch(e => console.error(e));
+    }
+
+    // ===== POLLING (INTERRUPT SIMULATION) =====
+    let popupActive = false;
+
+    setInterval(async () => {
+
+      if (popupActive) return;
+
+      try {
+        let res = await fetch(`${ESP_IP}/status`);
+        let text = await res.text();
+
+        console.log("STATUS:", text);
+
+        if (text.startsWith("VERIFY")) {
+
+          popupActive = true;
+
+          let slot = text.split(":")[1];
+
+          let choice = confirm(`Slot ${slot}: Verify vehicle?`);
+
+          if (choice) {
+            await fetch(`${ESP_IP}/verify?slot=${slot}`);
+            log(`Slot ${slot} VERIFIED`);
+          } else {
+            await fetch(`${ESP_IP}/decline?slot=${slot}`);
+            log(`Slot ${slot} DECLINED`);
+          }
+        }
+
+      } catch (err) {
+        console.error("Polling error:", err);
+      }
+      finally {
+        popupActive = false;   // 🔥 ALWAYS resets
+      }
+
+    }, 1000);
+
+  </script>
+
+</body>
+
+</html>

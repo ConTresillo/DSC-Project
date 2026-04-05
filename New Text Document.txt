@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 Control</title>
+</head>
+<body>
+
+<h2>ESP32 Control Panel</h2>
+
+<h3>Slot 0</h3>
+<button onclick="trigger(0,'red')">Red</button>
+<button onclick="trigger(0,'green')">Green</button>
+<button onclick="trigger(0,'blue')">Blue</button>
+<button onclick="trigger(0,'buzzer')">Buzzer</button>
+
+<h3>Slot 1</h3>
+<button onclick="trigger(1,'red')">Red</button>
+<button onclick="trigger(1,'green')">Green</button>
+<button onclick="trigger(1,'blue')">Blue</button>
+<button onclick="trigger(1,'buzzer')">Buzzer</button>
+
+<script>
+function trigger(slot, device) {
+  fetch(`http://192.168.1.9/trigger?slot=${slot}&device=${device}`)
+    .then(res => console.log("Triggered"))
+    .catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>

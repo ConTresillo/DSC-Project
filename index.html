@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="header">
+            <h1 class="glitch" data-text="SMART PARKING SYSTEM">SMART PARKING SYSTEM</h1>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="pulse"></span> NET.CONNECTED
+                </div>
+                <button class="settings-toggle" onclick="openSettings()">⚙</button>
+            </div>
+        </header>
+
+        <main class="slots-container">
+            <!-- Slot 1 -->
+            <div class="slot-card" id="slot-1">
+                <div class="slot-header">
+                    <h2>SLOT 01</h2>
+                    <span class="status-badge" id="status-badge-1">FREE</span>
+                </div>
+                <div class="slot-body">
+                    <div class="visualizer">
+                        <div class="grid-overlay"></div>
+                    </div>
+                </div>
+                <div class="slot-footer">
+                    <button class="cyber-btn" onclick="bookSlot(1)">
+                        <span class="cyber-btn-content">BOOK SLOT</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Slot 0 -->
+            <div class="slot-card" id="slot-0">
+                <div class="slot-header">
+                    <h2>SLOT 00</h2>
+                    <span class="status-badge" id="status-badge-0">FREE</span>
+                </div>
+                <div class="slot-body">
+                    <div class="visualizer">
+                        <div class="grid-overlay"></div>
+                    </div>
+                </div>
+                <div class="slot-footer">
+                    <button class="cyber-btn" onclick="bookSlot(0)">
+                        <span class="cyber-btn-content">BOOK SLOT</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="terminal-log">
+            <div class="log-content" id="log-content">
+                <div class="log-entry">> System initialized. Waiting for uplink...</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal for Verification -->
+    <div class="modal-overlay" id="verify-modal">
+        <div class="cyber-modal">
+            <div class="modal-decor top-left"></div>
+            <div class="modal-decor bottom-right"></div>
+            <h3 class="modal-title">! VEHICLE DETECTED !</h3>
+            <p class="modal-message" id="modal-message">Is it your vehicle in Slot X</p>
+            <div class="modal-actions">
+                <button class="cyber-btn btn-verify" onclick="verifyAction()">VERIFY</button>
+                <button class="cyber-btn btn-decline" onclick="declineAction()">DECLINE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Settings -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="cyber-modal settings-modal">
+            <div class="modal-decor top-left"></div>
+            <div class="modal-decor bottom-right"></div>
+            <h3 class="modal-title">SYSTEM CONFIG</h3>
+            <div class="settings-form">
+                <div class="settings-field">
+                    <label>ESP32 IP ADDRESS</label>
+                    <input type="text" id="setting-esp-ip" placeholder="http://10.245.42.179">
+                </div>
+                <div class="settings-field">
+                    <label>STATUS POLL (MS)</label>
+                    <input type="number" id="setting-status-interval" placeholder="800">
+                </div>
+                <div class="settings-field">
+                    <label>STATE SYNC (MS)</label>
+                    <input type="number" id="setting-state-interval" placeholder="400">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cyber-btn btn-verify" onclick="saveSettings()">SAVE CONFIG</button>
+                <button class="cyber-btn btn-decline" style="border-color: var(--yellow); color: var(--yellow);"
+                    onclick="resetSettings()">RESET</button>
+                <button class="cyber-btn btn-decline" onclick="closeSettings()">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
