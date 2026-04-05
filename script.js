@@ -169,7 +169,11 @@ function restartIntervals() {
 function bookSlot(slotId) {
     addLog(`Initiating HTTP sequence -> /book?slot=${slotId}...`, 'info');
 
-    fetch(`${settings.espIp}/book?slot=${slotId}`)
+    fetch(`${settings.espIp}/book?slot=${slotId}`, {
+  headers: {
+    "ngrok-skip-browser-warning": "true"
+  }
+})
         .then(response => response.text())
         .then(text => {
             addLog(`Book response [Slot ${slotId}]: ${text}`, 'success');
@@ -186,7 +190,11 @@ function bookSlot(slotId) {
 function verifySlot(slotId) {
     addLog(`Sending verification signal -> /verify?slot=${slotId}`, 'info');
 
-    fetch(`${settings.espIp}/verify?slot=${slotId}`)
+    fetch(`${settings.espIp}/verify?slot=${slotId}`, {
+  headers: {
+    "ngrok-skip-browser-warning": "true"
+  }
+})
         .then(response => response.text())
         .then(text => addLog(`Verify response: ${text}`, 'success'))
         .catch(error => {
@@ -201,7 +209,11 @@ function verifySlot(slotId) {
 function declineSlot(slotId) {
     addLog(`Sending override signal -> /decline?slot=${slotId}`, 'info');
 
-    fetch(`${settings.espIp}/decline?slot=${slotId}`)
+    fetch(`${settings.espIp}/decline?slot=${slotId}`, {
+  headers: {
+    "ngrok-skip-browser-warning": "true"
+  }
+})
         .then(response => response.text())
         .then(text => addLog(`Decline response: ${text}`, 'success'))
         .catch(error => {
@@ -219,7 +231,11 @@ function declineSlot(slotId) {
 function pollStatus() {
     if (popupActive) return;
 
-    fetch(`${settings.espIp}/status`)
+    fetch(`${settings.espIp}/status`, {
+  headers: {
+    "ngrok-skip-browser-warning": "true"
+  }
+})
         .then(response => response.text())
         .then(data => {
             // Target format expected: "VERIFY:i"
