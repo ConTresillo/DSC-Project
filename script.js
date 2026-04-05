@@ -67,6 +67,7 @@ function showVerifyModal(slotId) {
     modal.classList.add('active');
 
     addLog(`System alert: Verification required for slot ${slotId}`, 'warning');
+
 }
 
 function hideVerifyModal() {
@@ -169,11 +170,7 @@ function restartIntervals() {
 function bookSlot(slotId) {
     addLog(`Initiating HTTP sequence -> /book?slot=${slotId}...`, 'info');
 
-    fetch(`${settings.espIp}/book?slot=${slotId}`, {
-  headers: {
-    "ngrok-skip-browser-warning": "true"
-  }
-})
+    fetch(`${settings.espIp}/book?slot=${slotId}`)
         .then(response => response.text())
         .then(text => {
             addLog(`Book response [Slot ${slotId}]: ${text}`, 'success');
@@ -190,11 +187,7 @@ function bookSlot(slotId) {
 function verifySlot(slotId) {
     addLog(`Sending verification signal -> /verify?slot=${slotId}`, 'info');
 
-    fetch(`${settings.espIp}/verify?slot=${slotId}`, {
-  headers: {
-    "ngrok-skip-browser-warning": "true"
-  }
-})
+    fetch(`${settings.espIp}/verify?slot=${slotId}`)
         .then(response => response.text())
         .then(text => addLog(`Verify response: ${text}`, 'success'))
         .catch(error => {
@@ -209,11 +202,7 @@ function verifySlot(slotId) {
 function declineSlot(slotId) {
     addLog(`Sending override signal -> /decline?slot=${slotId}`, 'info');
 
-    fetch(`${settings.espIp}/decline?slot=${slotId}`, {
-  headers: {
-    "ngrok-skip-browser-warning": "true"
-  }
-})
+    fetch(`${settings.espIp}/decline?slot=${slotId}`)
         .then(response => response.text())
         .then(text => addLog(`Decline response: ${text}`, 'success'))
         .catch(error => {
@@ -231,11 +220,7 @@ function declineSlot(slotId) {
 function pollStatus() {
     if (popupActive) return;
 
-    fetch(`${settings.espIp}/status`, {
-  headers: {
-    "ngrok-skip-browser-warning": "true"
-  }
-})
+    fetch(`${settings.espIp}/status`)
         .then(response => response.text())
         .then(data => {
             // Target format expected: "VERIFY:i"
@@ -257,11 +242,7 @@ function pollStatus() {
 // State Polling (UI Sync)
 // ----------------------------------------------------
 function pollState() {
-    fetch(`${settings.espIp}/state`, {
-  headers: {
-    "ngrok-skip-browser-warning": "true"
-  }
-})
+    fetch(`${settings.espIp}/state`)
         .then(response => response.json())
         .then(data => {
             if (data && Array.isArray(data.slots)) {
